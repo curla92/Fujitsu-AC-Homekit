@@ -3,11 +3,12 @@
 # Fujitsu-AC-Homekit by Homekit Italia Group
 
 A firmware for ESP8266 use to control Fujitsu Air Conditioner. 
+You can set heat and cool temp in homekit and control fan speed and swing in EVE app.
 The code is based on peros550 ac_multiple_sensors fw using the maxim kulkin's libraries.
 
 A special thanks to [GPL71](https://github.com/GPL71) , [lizzus](https://github.com/lizzus) and [RavenSystem](https://github.com/RavenSystem) for their support.
 
-Starting from version 0.0.8 it works perfectly with my fujitsu. For other clima it needs more time.
+Homekit Setup Code is : 277-66-227
 
 If you can help me for new projects in the future i would be greateful. Thank y
 
