@@ -10,7 +10,7 @@ A special thanks to [GPL71](https://github.com/GPL71) , [lizzus](https://github.
 
 Homekit Setup Code is : 277-66-227
 
-<a><img src="https://i.ibb.co/z6txjyF/qrcode.png" alt="homekit-setpup-code" border="0"></a>
+<a><img src="https://i.ibb.co/grm8XwJ/qrcode.png" alt="homekit-setpup-code" border="0"></a>
 
 If you can help me for new projects in the future i would be greateful. Thank y
 
