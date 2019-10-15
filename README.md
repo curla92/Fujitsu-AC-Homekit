@@ -6,7 +6,9 @@ A firmware for ESP8266 to control Fujitsu Air Conditioner.
 You can set heat and cool temp in homekit, control fan speed and swing in EVE app.
 
 Temp Range Heat/Cool: 18-30c°;
+
 Offset Temp and Hum;
+
 Fan Speed Range: 0/4 (QUIET/LOW/AUTO/MED/HIGH);
 
 Swing: ON/OFF;
