@@ -5,21 +5,9 @@
 A firmware for ESP8266 to control Fujitsu Air Conditioner. 
 You can set heat and cool temp in homekit, control fan speed and swing in EVE app.
 
-**Features:**
+**WiKi**
 
-- Temp Range Heat/Cool: *18-30c°*;
-
-- Offset: *Temp and Hum*;
-
-- Fan Speed Range: *0/Quiet, 1/Low, 2/Auto, 3/Med, 4/High;*
-
-- Swing: *ON/OFF*;
-
-- Setup Config:
-*Wifi Reset, Reboot and Ota Update;*
-
-- Reset Mode:
-*First minute from reebot, switch on/off 10 times Show Setup toggle;*
+*Go to the [Wiki](https://github.com/curla92/Daikin-AC-Homekit/wiki/EVE-CONFIG) to config.*
 
 **Homekit Setup Code is :**
 ```
@@ -35,3 +23,5 @@ A special thanks to [GPL71](https://github.com/GPL71) , [lizzus](https://github.
 If you can help me for new projects in the future i would be greateful. Thank y
 
 [![paypal](https://www.paypalobjects.com/en_US/IT/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WKPEBA4PLFKXU&source=url)
+
+
