@@ -20,13 +20,11 @@ First minute from reebot, switch on/off 10 times Show Setup toggle;
 
 Homekit Setup Code is : 277-66-227
 
-#
+<a><img src="https://i.ibb.co/grm8XwJ/qrcode.png" alt="homekit-setpup-code" border="0"></a>
 
 The code is based on peros550 ac_multiple_sensors fw using the maxim kulkin's libraries.
 
 A special thanks to [GPL71](https://github.com/GPL71) , [lizzus](https://github.com/lizzus) and [RavenSystem](https://github.com/RavenSystem) for their support.
-
-<a><img src="https://i.ibb.co/grm8XwJ/qrcode.png" alt="homekit-setpup-code" border="0"></a>
 
 If you can help me for new projects in the future i would be greateful. Thank y
 
