@@ -14,7 +14,7 @@ You can set heat and cool temp in homekit, control fan speed and swing in EVE ap
 277-66-227
 ```
 
-<a><img src="https://i.ibb.co/grm8XwJ/qrcode.png" alt="homekit-setpup-code" border="0"></a>
+<a><img src="https://i.ibb.co/wRzYSM8/qrcode.png" alt="homekit-setpup-code" border="0"></a>
 
 The code is based on peros550 ac_multiple_sensors fw using the maxim kulkin's libraries.
 
