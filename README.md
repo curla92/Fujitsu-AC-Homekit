@@ -11,7 +11,7 @@ You can set heat and cool temp in homekit, control fan speed and swing in EVE ap
 
 - Offset: *Temp and Hum*;
 
-- Fan Speed Range: *0/Quiet, 1/Low, 2/Auto, 3/Med, 4/High*
+- Fan Speed Range: *0/Quiet, 1/Low, 2/Auto, 3/Med, 4/High;*
 
 - Swing: *ON/OFF*;
 
