@@ -7,7 +7,7 @@ You can set heat and cool temp in homekit, control fan speed and swing in EVE ap
 
 **WiKi**
 
-*Go to the [Wiki](https://github.com/curla92/Daikin-AC-Homekit/wiki/EVE-CONFIG) to config.*
+*Go to the [Wiki](https://github.com/curla92/Fujitsu-AC-Homekit/wiki/EVE-CONFIG) to config.*
 
 **Homekit Setup Code is :**
 ```
