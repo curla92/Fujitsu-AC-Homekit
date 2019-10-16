@@ -21,6 +21,6 @@ Also it uses the OTA update system [Life-Cycle-Manager (LCM)](https://github.com
 
 A special thanks to [@GPL71](https://github.com/GPL71) , [@lizzus](https://github.com/lizzus) and [@RavenSystem](https://github.com/RavenSystem) for their support.
 
-If you can help me for new projects in the future i would be greateful. Thank y
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WKPEBA4PLFKXU&source=url)
 
-[![paypal](https://www.paypalobjects.com/en_US/IT/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WKPEBA4PLFKXU&source=url)
+[![Latest](https://img.shields.io/badge/Latest-Release-green)](https://github.com/curla92/Fujitsu-AC-Homekit/releases)
