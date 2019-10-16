@@ -9,6 +9,8 @@ You can set heat and cool temp in homekit, control fan speed and swing in EVE ap
 
 *Go to the [Wiki](https://github.com/curla92/Fujitsu-AC-Homekit/wiki/EVE-CONFIG) to config.*
 
+[![Donate](https://img.shields.io/badge/Donate-PayPal-blue)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WKPEBA4PLFKXU&source=url)
+
 **Homekit Setup Code is :**
 ```
 277-66-227
@@ -20,7 +22,3 @@ The project is based on accessory server library ESP-HomeKit from [@MaximKulkin]
 Also it uses the OTA update system [Life-Cycle-Manager (LCM)](https://github.com/HomeACcessoryKid/life-cycle-manager) from [@HomeACcessoryKid](https://github.com/HomeACcessoryKid).
 
 A special thanks to [@GPL71](https://github.com/GPL71) , [@lizzus](https://github.com/lizzus) and [@RavenSystem](https://github.com/RavenSystem) for their support.
-
-[![Donate](https://img.shields.io/badge/Donate-PayPal-blue)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WKPEBA4PLFKXU&source=url)
-
-[![Latest](https://img.shields.io/badge/Latest-Release-green)](https://github.com/curla92/Fujitsu-AC-Homekit/releases)
