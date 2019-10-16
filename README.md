@@ -16,7 +16,7 @@ You can set heat and cool temp in homekit, control fan speed and swing in EVE ap
 
 <a><img src="https://i.ibb.co/wRzYSM8/qrcode.png" alt="homekit-setpup-code" border="0"></a>
 
-The project is based accessory server library ESP-HomeKit from @MaximKulkin for ESP-OPEN-RTOS.
-Also uses the OTA update system Life-Cycle-Manager (LCM) from @HomeACessoryKid.
+The project is based accessory server library ESP-HomeKit from [@MaximKulkin](https://github.com/MaximKulkin) for ESP-OPEN-RTOS.
+Also uses the OTA update system Life-Cycle-Manager (LCM) from [@HomeACessoryKid](https://github.com/HomeACessoryKid).
 
-A special thanks to [GPL71](https://github.com/GPL71) , [lizzus](https://github.com/lizzus) and [RavenSystem](https://github.com/RavenSystem) for their support.
+A special thanks to [@GPL71](https://github.com/GPL71) , [@lizzus](https://github.com/lizzus) and [@RavenSystem](https://github.com/RavenSystem) for their support.
