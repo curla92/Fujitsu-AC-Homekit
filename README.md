@@ -16,12 +16,13 @@ You can set heat and cool temp in homekit, control fan speed and swing in EVE ap
 
 <a><img src="https://i.ibb.co/wRzYSM8/qrcode.png" alt="homekit-setpup-code" border="0"></a>
 
-The code is based on peros550 ac_multiple_sensors fw using the maxim kulkin's libraries.
+The project is based accessory server library ESP-HomeKit from @MaximKulkin for ESP-OPEN-RTOS.
+Also uses the OTA update system Life-Cycle-Manager (LCM) from @HomeACessoryKid.
 
 A special thanks to [GPL71](https://github.com/GPL71) , [lizzus](https://github.com/lizzus) and [RavenSystem](https://github.com/RavenSystem) for their support.
 
-If you can help me for new projects in the future i would be greateful. Thank y
+> HomeKit Accessory Protocol (HAP) is Apple’s proprietary protocol that enables third-party accessories in the home (e.g., lights, thermostats and door locks) and Apple products to communicate with each other. HAP supports two transports, IP and Bluetooth LE. The information provided in the HomeKit Accessory Protocol Specification (Non-Commercial Version) describes how to implement HAP in an accessory that you create for non-commercial use and that will not be distributed or sold.
 
-[![paypal](https://www.paypalobjects.com/en_US/IT/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=WKPEBA4PLFKXU&source=url)
+> The HomeKit Accessory Protocol Specification (Non-Commercial Version) can be downloaded from the HomeKit Apple Developer page.
 
-
+> Copyright © 2019 Apple Inc. All rights reserved.>
