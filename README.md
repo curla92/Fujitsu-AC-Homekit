@@ -9,6 +9,9 @@
 A firmware for ESP8266 to control Fujitsu Air Conditioner. 
 You can set heat and cool temp in homekit, control fan speed and swing in EVE app.
 
+**Fujitsu AC Supported**
+- *Fujitsu ARDB1 remote;*
+
 **WiKi**
 
 *Go to the [Wiki](https://github.com/curla92/Fujitsu-AC-Homekit/wiki/EVE-CONFIG) to config.*
