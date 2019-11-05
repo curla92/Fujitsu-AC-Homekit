@@ -26,4 +26,4 @@ You can set heat and cool temp in homekit, control fan speed and swing in EVE ap
 The project is based on accessory server library ESP-HomeKit from [@MaximKulkin](https://github.com/MaximKulkin) for ESP-OPEN-RTOS.
 Also it uses the OTA update system [Life-Cycle-Manager (LCM)](https://github.com/HomeACcessoryKid/life-cycle-manager) from [@HomeACcessoryKid](https://github.com/HomeACcessoryKid).
 
-A special thanks to [@GPL71](https://github.com/GPL71) , [@lizzus](https://github.com/lizzus) and [@RavenSystem](https://github.com/RavenSystem) for their support.
+A special thanks to [@GPL71](https://github.com/GPL71) , [@lizzus](https://github.com/lizzus) for their support.
