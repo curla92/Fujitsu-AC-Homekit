@@ -35,12 +35,11 @@ const int GPIO_IR_PIN = 14; // IR sensor on pin D5
 #define TEMP_OFFSET "E"
 #define HUM_OFFSET "F"
 #define FAN_SYSPARAM "G"
-#define SWING_SYSPARAM "H"
+#define SWING_SYSPARAM "I"
 
 #define ALLOWED_FACTORY_RESET_TIME 60000
 
 uint8_t reset_toggle_counter = 0;
-uint8_t init_state = 0;
 uint8_t target_fan = 2;
 bool target_swing = false;
 
@@ -52,11 +51,9 @@ volatile bool paired = false;
 volatile bool Wifi_Connected = false;
 
 homekit_value_t read_ip_addr();
-homekit_value_t custom_fan_get();
-homekit_value_t enable_swing_get();
 
-void custom_fan_set(homekit_value_t value);
-void enable_swing_set(homekit_value_t value);
+void fan_update(homekit_characteristic_t *ch, homekit_value_t value, void *context);
+void swing_update(homekit_characteristic_t *ch, homekit_value_t value, void *context);
 
 void update_state();
 void update_temp();
@@ -95,110 +92,92 @@ homekit_characteristic_t target_temperature = HOMEKIT_CHARACTERISTIC_(TARGET_TEM
 homekit_characteristic_t current_heating_cooling_state = HOMEKIT_CHARACTERISTIC_(CURRENT_HEATING_COOLING_STATE, 0);
 homekit_characteristic_t target_heating_cooling_state = HOMEKIT_CHARACTERISTIC_(TARGET_HEATING_COOLING_STATE, 0, .callback = HOMEKIT_CHARACTERISTIC_CALLBACK(on_update), .min_value = (float[]) {0}, .max_value = (float[]) {2}, .min_step = (float[]) {1});
 
-homekit_characteristic_t custom_fan = HOMEKIT_CHARACTERISTIC_(CUSTOM_FAN, 2, .getter=custom_fan_get, .setter=custom_fan_set);
-homekit_characteristic_t enable_swing = HOMEKIT_CHARACTERISTIC_(CUSTOM_SWING, false, .getter=enable_swing_get, .setter=enable_swing_set);
+homekit_characteristic_t custom_fan = HOMEKIT_CHARACTERISTIC_(CUSTOM_FAN, 2, .callback = HOMEKIT_CHARACTERISTIC_CALLBACK(fan_update));
+homekit_characteristic_t enable_swing = HOMEKIT_CHARACTERISTIC_(CUSTOM_SWING, false, .callback = HOMEKIT_CHARACTERISTIC_CALLBACK(swing_update));
 
 
 void update_state() {
-    uint8_t state = target_heating_cooling_state.value.int_value;
     
-    if (state == 1 && current_temperature.value.int_value >= target_temperature.value.int_value) {
-        
-        current_heating_cooling_state.value = HOMEKIT_UINT8(0);
-        // printf("Target State1: %d\n",state );
-    }else if (state == 2 && current_temperature.value.int_value <= target_temperature.value.int_value) {
-        current_heating_cooling_state.value = HOMEKIT_UINT8(0);
-        // printf("Target State2: %d\n",state );
-    }else{
-        current_heating_cooling_state.value = HOMEKIT_UINT8(state);
-        // printf("Target State3: %d\n",state );
+    uint8_t target_state = target_heating_cooling_state.value.int_value;
+    uint8_t current_state = current_heating_cooling_state.value.int_value;
+    
+    switch (target_state) {
+        case HOMEKIT_TARGET_HEATING_COOLING_STATE_HEAT:
+            current_heating_cooling_state.value = HOMEKIT_UINT8(HOMEKIT_TARGET_HEATING_COOLING_STATE_HEAT);
+            break;
+            
+        case HOMEKIT_TARGET_HEATING_COOLING_STATE_COOL:
+            current_heating_cooling_state.value = HOMEKIT_UINT8(HOMEKIT_TARGET_HEATING_COOLING_STATE_COOL);
+            break;
+            
+        case HOMEKIT_TARGET_HEATING_COOLING_STATE_OFF:
+            current_heating_cooling_state.value = HOMEKIT_UINT8(HOMEKIT_TARGET_HEATING_COOLING_STATE_OFF);
+            break;
+            
+        default:
+            printf("No action \n" );
     }
     
-    vTaskDelay(200 / portTICK_PERIOD_MS);
     homekit_characteristic_notify(&current_heating_cooling_state, current_heating_cooling_state.value);
-    // printf("switch_temp_update: %f\n", switch_temp_update );
-    // OFF CLIMA
     
-    if (state == 0 && init_state != 0) {
-        enable_swing.value.bool_value = false;
-        target_swing = enable_swing.value.bool_value;
-        init_state = 0;
+    if (target_state == 0 && target_state != current_state) {
         ac_button_off();
         led_code(led_gpio, FUNCTION_C);
+        printf("Off \n" );
+        enable_swing.value.bool_value = false;
+        target_swing = enable_swing.value.bool_value;
         homekit_characteristic_notify(&enable_swing, enable_swing.value);
-    }else if(switch_temp_update == 0) {
+        current_state = target_state;
+    }else if (target_state != current_state){
         update_temp();
+        current_state = target_state;
     }
-    
-    switch_temp_update = 0;
     
     save_states_callback();
 }
 
 void update_temp() {
     
-    // printf("Running update_temp() \n" );
     uint8_t target_state = target_heating_cooling_state.value.int_value;
+    uint8_t target_temp = 0;
     
-    float target_temp = 0;
-    if (target_state == 1) {
-        // Read the Heat target
-        init_state = 1;
-        target_temp = target_temperature.value.float_value;
-    }else if(target_state == 2) {
-        // Else read the Cool target
-        init_state = 1;
-        target_temp = target_temperature.value.float_value;
-    }
-    // printf("Target State: %d\n",target_state );
-    // printf("Target temp: %f\n",target_temp );
-    
-    target_temp = (int)target_temp;
+    target_temp = (int)target_temperature.value.float_value;
     pass_temp_mode_values(target_temp, target_state, target_fan);
     
-    ac_button_temp();
-
-    if (target_state == 1 && target_temp == 30) {
-    led_code(led_gpio, FUNCTION_B);
-    }else if (target_state == 2 && target_temp == 18) {
-    led_code(led_gpio, FUNCTION_B);
+    switch (target_state) {
+        case HOMEKIT_TARGET_HEATING_COOLING_STATE_HEAT:
+            printf("Heat Target Temp: %d\n", target_temp);	
+            ac_button_temp();
+            if (target_temp == 30) {
+                led_code(led_gpio, FUNCTION_B);
+            }
+            break;
+            
+        case HOMEKIT_TARGET_HEATING_COOLING_STATE_COOL:
+            printf("Cool Target Temp: %d\n", target_temp);	
+            ac_button_temp();
+            if (target_temp == 18) {
+                led_code(led_gpio, FUNCTION_B);
+            }
+            break;
+            
+        default:
+            printf("No action \n" );
     }
-
-    switch_temp_update = 1;
-    update_state();
-
 }
 
-// FAN GET VALUE
-homekit_value_t custom_fan_get() {
-    return HOMEKIT_UINT8(target_fan);
+// FAN SET
+void fan_update(homekit_characteristic_t *ch, homekit_value_t value, void *context) {
+    printf("Fan Speed Changed: %d\n", custom_fan.value.int_value);
+    target_fan = custom_fan.value.int_value;
+    
+    save_states_callback();
 }
 
-// FAN SET VALUE
-void custom_fan_set(homekit_value_t value) {
-    if (value.format != homekit_format_uint8) {
-        //printf("Invalid Fan-value format: %d\n", value.format);
-        return;
-    }
-    target_fan = value.uint8_value;
-    update_temp();
-}
-
-// SWING GET VALUE
-homekit_value_t enable_swing_get() {
-    return HOMEKIT_BOOL(target_swing);
-}
-
-// SWING SET VALUE
-void enable_swing_set(homekit_value_t value) {
-    if (value.format != homekit_format_bool) {
-        //printf("Invalid Swing-value format: %d\n", value.format);
-        return;
-    }
-    target_swing = value.bool_value;
-    if (target_heating_cooling_state.value.int_value != 0) {
-        ac_button_swing();
-    }
+//SWING SET
+void swing_update(homekit_characteristic_t *ch, homekit_value_t value, void *context) {
+    printf("Swing: %d\n", enable_swing.value.bool_value);
+    target_swing = enable_swing.value.bool_value;
 }
 
 // CHANGE SETTINGS
@@ -223,6 +202,11 @@ void save_states() {
     }
     
     status = sysparam_set_int32(TARGET_TEMPERATURE_SYSPARAM, target_temperature.value.float_value * 100);
+    if (status != SYSPARAM_OK) {
+        flash_error = status;
+    }
+    
+    status = sysparam_set_int8(FAN_SYSPARAM, custom_fan.value.int_value);
     if (status != SYSPARAM_OK) {
         flash_error = status;
     }
@@ -330,6 +314,16 @@ void settings_init() {
         target_temperature.value.float_value = int32_value / 100.00f;
     } else {
         status = sysparam_set_int32(TARGET_TEMPERATURE_SYSPARAM, 22 * 100);
+        if (status != SYSPARAM_OK) {
+            flash_error = status;
+        }
+    }
+    
+    status = sysparam_get_int8(FAN_SYSPARAM, &int8_value);
+    if (status == SYSPARAM_OK) {
+        custom_fan.value.int_value = int8_value;
+    } else {
+        status = sysparam_set_int8(FAN_SYSPARAM, 2);
         if (status != SYSPARAM_OK) {
             flash_error = status;
         }
@@ -535,7 +529,7 @@ homekit_characteristic_t manufacturer = HOMEKIT_CHARACTERISTIC_(MANUFACTURER, "C
 homekit_characteristic_t name = HOMEKIT_CHARACTERISTIC_(NAME, "Air Conditioner");
 homekit_characteristic_t serial = HOMEKIT_CHARACTERISTIC_(SERIAL_NUMBER, NULL);
 homekit_characteristic_t model = HOMEKIT_CHARACTERISTIC_(MODEL, "Fujitsu AC");
-homekit_characteristic_t revision = HOMEKIT_CHARACTERISTIC_(FIRMWARE_REVISION, "2.7.1");
+homekit_characteristic_t revision = HOMEKIT_CHARACTERISTIC_(FIRMWARE_REVISION, "2.7.3");
 homekit_characteristic_t identify_function = HOMEKIT_CHARACTERISTIC_(IDENTIFY, identify);
 homekit_characteristic_t service_name = HOMEKIT_CHARACTERISTIC_(NAME, "Fujitsu AC");
 homekit_characteristic_t setup_name = HOMEKIT_CHARACTERISTIC_(NAME, "Setup");
@@ -675,7 +669,8 @@ void hardware_init() {
     printf("IR gpio init -> %d\n", GPIO_IR_PIN);
     printf("IR Frequency(38kHz)\n");
     
-    printf("Clima Init -> Mode %d, Temp %.1fc°  \n", target_heating_cooling_state.value.int_value, target_temperature.value.float_value);
+    update_state();
+    printf("Clima Init -> Mode %d, Temp %.1fc°, Fan %d  \n", target_heating_cooling_state.value.int_value, target_temperature.value.float_value, custom_fan.value.int_value);
 }
 
 void user_init(void) {
